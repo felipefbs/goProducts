@@ -1,14 +1,12 @@
 package entities
 
 import (
-	"fmt"
-	"math/rand"
-
 	"github.com/felipefbs/goProducts/pkg/errors"
+	"github.com/felipefbs/goProducts/pkg/utils"
 )
 
 type Customer struct {
-	ID           string
+	ID           utils.ID
 	Name         string
 	Address      *Address
 	Active       bool
@@ -17,7 +15,7 @@ type Customer struct {
 
 func NewCustomer(name string, address *Address) (*Customer, error) {
 	c := &Customer{
-		ID:           fmt.Sprint(rand.Int()),
+		ID:           utils.NewID(),
 		Name:         name,
 		Address:      address,
 		Active:       false,
