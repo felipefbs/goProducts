@@ -72,9 +72,33 @@ func (p *productRepository) Update(product *entities.Product) error {
 }
 
 func (p *productRepository) Find(id utils.ID) (*entities.Product, error) {
-	return nil, nil
+	var productFound models.Product
+
+	result := p.db.Find(&productFound, id)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return (*entities.Product)(&productFound), nil
 }
 
 func (p *productRepository) FindAll() ([]*entities.Product, utils.Metadata) {
-	return nil, utils.Metadata{}
+	var productsFound []*models.Product
+
+	result := p.db.Find(&productsFound)
+	if result.Error != nil {
+		return nil, utils.Metadata{}
+	}
+
+	products := make([]*entities.Product, 0)
+
+	for _, p := range productsFound {
+		products = append(products, &entities.Product{
+			ID:    p.ID,
+			Name:  p.Name,
+			Price: p.Price,
+		})
+	}
+
+	return products, utils.Metadata{}
 }

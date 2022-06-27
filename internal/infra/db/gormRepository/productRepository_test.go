@@ -85,3 +85,60 @@ func Test_Update(t *testing.T) {
 		assert.Equal(t, product.Price, productFound.Price)
 	})
 }
+
+func Test_FindAll(t *testing.T) {
+	db, err := connectDB()
+	assert.Nil(t, err)
+
+	productRepo, err := gormRepository.NewProductRepository()
+	assert.Nil(t, err)
+
+	t.Cleanup(func() {
+		db.Exec("DELETE FROM products")
+	})
+
+	t.Run("It should retrieve all products", func(t *testing.T) {
+		product, err := entities.NewProduct(productName1, productPrice1)
+		assert.Nil(t, err)
+
+		result := db.Create(product)
+		assert.Nil(t, result.Error)
+
+		product2, err := entities.NewProduct(productName1, productPrice1)
+		assert.Nil(t, err)
+
+		result = db.Create(product2)
+		assert.Nil(t, result.Error)
+
+		productsFound, _ := productRepo.FindAll()
+
+		assert.Equal(t, 2, len(productsFound))
+	})
+}
+
+func Test_Find(t *testing.T) {
+	db, err := connectDB()
+	assert.Nil(t, err)
+
+	productRepo, err := gormRepository.NewProductRepository()
+	assert.Nil(t, err)
+
+	t.Cleanup(func() {
+		db.Exec("DELETE FROM products")
+	})
+
+	t.Run("It should retrieve a product", func(t *testing.T) {
+		product, err := entities.NewProduct(productName1, productPrice1)
+		assert.Nil(t, err)
+
+		result := db.Create(product)
+		assert.Nil(t, result.Error)
+
+		productFound, err := productRepo.Find(product.ID)
+		assert.Nil(t, err)
+
+		assert.Equal(t, product.ID, productFound.ID)
+		assert.Equal(t, product.Name, productFound.Name)
+		assert.Equal(t, product.Price, productFound.Price)
+	})
+}
