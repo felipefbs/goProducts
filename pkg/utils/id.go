@@ -1,12 +1,9 @@
 package utils
 
-import (
-	"fmt"
-	"math/rand"
-)
+import "github.com/google/uuid"
 
 type ID string
 
 func NewID() ID {
-	return ID(fmt.Sprint(rand.Int()))
+	return ID(uuid.New().String())
 }
