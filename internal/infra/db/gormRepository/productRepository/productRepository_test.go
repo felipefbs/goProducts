@@ -1,10 +1,10 @@
-package gormRepository_test
+package productRepository_test
 
 import (
 	"testing"
 
-	"github.com/felipefbs/goProducts/internal/infra/db/gormRepository"
 	"github.com/felipefbs/goProducts/internal/infra/db/gormRepository/models"
+	"github.com/felipefbs/goProducts/internal/infra/db/gormRepository/productRepository"
 	"github.com/felipefbs/goProducts/pkg/domain/entities"
 	"github.com/stretchr/testify/assert"
 	"gorm.io/driver/sqlite"
@@ -12,7 +12,7 @@ import (
 )
 
 func connectDB() (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open("ddd.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func Test_Save(t *testing.T) {
 	db, err := connectDB()
 	assert.Nil(t, err)
 
-	productRepo, err := gormRepository.NewProductRepository()
+	productRepo, err := productRepository.NewProductRepository()
 	assert.Nil(t, err)
 
 	t.Cleanup(func() {
@@ -56,7 +56,7 @@ func Test_Update(t *testing.T) {
 	db, err := connectDB()
 	assert.Nil(t, err)
 
-	productRepo, err := gormRepository.NewProductRepository()
+	productRepo, err := productRepository.NewProductRepository()
 	assert.Nil(t, err)
 
 	t.Cleanup(func() {
@@ -90,7 +90,7 @@ func Test_FindAll(t *testing.T) {
 	db, err := connectDB()
 	assert.Nil(t, err)
 
-	productRepo, err := gormRepository.NewProductRepository()
+	productRepo, err := productRepository.NewProductRepository()
 	assert.Nil(t, err)
 
 	t.Cleanup(func() {
@@ -120,7 +120,7 @@ func Test_Find(t *testing.T) {
 	db, err := connectDB()
 	assert.Nil(t, err)
 
-	productRepo, err := gormRepository.NewProductRepository()
+	productRepo, err := productRepository.NewProductRepository()
 	assert.Nil(t, err)
 
 	t.Cleanup(func() {

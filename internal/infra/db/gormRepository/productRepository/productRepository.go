@@ -1,4 +1,4 @@
-package gormRepository
+package productRepository
 
 import (
 	"github.com/felipefbs/goProducts/internal/infra/db/gormRepository/models"
@@ -14,7 +14,7 @@ type productRepository struct {
 }
 
 func initDB() (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open("ddd.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
