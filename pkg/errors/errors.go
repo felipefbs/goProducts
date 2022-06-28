@@ -9,4 +9,5 @@ var (
 	ErrInvalidID       = errors.New("Invalid ID")
 	ErrInvalidQuantity = errors.New("Quantity should be greater then 0")
 	ErrInvalidPrice    = errors.New("Price should be greater then 0")
+	ErrNotFound        = errors.New("Not found")
 )
